@@ -10,6 +10,8 @@ int main(){
     float area;         // Área da cidade
     float pib;          // PIB da cidade
     int turisticos;     // Número de pontos turísticos
+    float densidade;    // Densidade populacional
+    float pibper;       // PIB per Capta
 
     // Cadastro das cidades
     printf("Digite a sigla do estado (ex: SP, RJ): \n");

@@ -1,51 +1,60 @@
 #include <stdio.h>
 
-int main(){
+int main() {
+    // Estrutura de dados para duas cartas
+    char estado[2][3];     // Estado como string (ex: "SP")
+    int codigocarta[2];    // Código numérico da carta
+    char cidade[2][50];    // Nome da cidade
+    unsigned long int populacao[2]; // Número da população
+    float area[2];         // Área da cidade
+    float pib[2];          // PIB da cidade
+    int turisticos[2];     // Número de pontos turísticos
+    float densidadepopulacional[2];   // Densidade populacional
+    float pibper[2];       // PIB per capita
+    float superPoder[2];   // Super Poder
 
-    // Definição da estrutura para armazenar dados das cartas
-    char estado[3];     // Estado como string (ex: "SP")
-    int codigocarta;    // Código numérico da carta
-    char cidade[50];    // Nome da cidade
-    int populacao;      // Número da população
-    float area;         // Área da cidade
-    float pib;          // PIB da cidade
-    int turisticos;     // Número de pontos turísticos
-    float densidade;    // Densidade populacional
-    float pibper;       // PIB per Capta
+    // Cadastro das duas cartas
+    for (int i = 0; i < 2; i++) {
+        printf("\nCadastro da Carta %d:\n", i + 1);
+        printf("Digite a sigla do estado (ex: SP, RJ): ");
+        scanf("%2s", estado[i]);
 
-    // Cadastro das cidades
-    printf("Digite a sigla do estado (ex: SP, RJ): \n");
-    scanf("%2s", &estado);
+        printf("Digite o código da carta: ");
+        scanf("%d", &codigocarta[i]);
+        getchar(); // Limpa o buffer do Enter após o scanf anterior
 
-    printf("Digite o código da carta: \n");
-    scanf("%d", &codigocarta);
+        printf("Digite o nome da cidade: ");
+        fgets(cidade[i], 50, stdin);
 
-    getchar(); // Limpa o buffer do Enter após o scanf anterior
+        printf("Digite o número da população: ");
+        scanf("%lu", &populacao[i]);
 
-    printf("Digite o nome da cidade: \n");
-    fgets(cidade, 50, stdin); // Permite nomes compostos
+        printf("Informe a área (km²): ");
+        scanf("%f", &area[i]);
 
-    printf("Digite o número da população: \n");
-    scanf(" %d", &populacao);
+        printf("Informe o PIB (em bilhões): ");
+        scanf("%f", &pib[i]);
 
-    printf("Informe a área: \n");
-    scanf("%f", &area);
+        printf("Quantidade de pontos turísticos: ");
+        scanf("%d", &turisticos[i]);
+    }
 
-    printf("Informe o PIB: \n");
-    scanf("%f", &pib);
+    // Cálculo dos atributos derivados
+    for (int i = 0; i < 2; i++) {
+        densidadepopulacional[i] = (area[i] > 0) ? (populacao[i] / area[i]) : 0;
+        pibper[i] = (populacao[i] > 0) ? (pib[i] * 1e9) / populacao[i] : 0;
+        superPoder[i] = populacao[i] + area[i] + (pib[i] * 1e9) + turisticos[i] + pibper[i] + (1.0 / (densidadepopulacional[i] + 1));
+    }
 
-    printf("Quantidade de pontos turísticos: \n");
-    scanf("%d", &turisticos);
-
-    // Exibição dos dados cadastrados
-    printf("\n--- Dados da Carta ---\n");
-    printf("Estado: %s\n", estado);
-    printf("Código da carta: %d\n", codigocarta);
-    printf("Cidade: %s", cidade); // `fgets` já adiciona `\n`
-    printf("População: %d\n", populacao);
-    printf("Área: %2f km²\n", area);
-    printf("PIB: %2f bilhões\n", pib);
-    printf("Pontos turísticos: %d\n", turisticos);
-
+    // Comparação dos atributos e exibição dos resultados
+    printf("\nComparação de Cartas:\n");
+    printf("População: Carta %d venceu (%d)\n", (populacao[0] > populacao[1]) ? 1 : 2, (populacao[0] > populacao[1]));
+    printf("Área: Carta %d venceu (%d)\n", (area[0] > area[1]) ? 1 : 2, (area[0] > area[1]));
+    printf("PIB: Carta %d venceu (%d)\n", (pib[0] > pib[1]) ? 1 : 2, (pib[0] > pib[1]));
+    printf("Pontos Turísticos: Carta %d venceu (%d)\n", (turisticos[0] > turisticos[1]) ? 1 : 2, (turisticos[0] > turisticos[1]));
+    printf("Densidade Populacional: Carta %d venceu (%d)\n", (densidadepopulacional[0] < densidadepopulacional[1]) ? 1 : 2, (densidadepopulacional[0] < densidadepopulacional[1]));
+    printf("PIB per Capita: Carta %d venceu (%d)\n", (pibper[0] > pibper[1]) ? 1 : 2, (pibper[0] > pibper[1]));
+    printf("Super Poder: Carta %d venceu (%d)\n", (superPoder[0] > superPoder[1]) ? 1 : 2, (superPoder[0] > superPoder[1]));
+    
     return 0;
 }
